@@ -6,7 +6,7 @@ function App() {
   const [date, setDate] = useState(null);
   useEffect(() => {
     async function getDate() {
-      const res = await fetch('/api/date');
+      const res = await fetch('/api/test');
       const newDate = await res.text();
       setDate(newDate);
     }
@@ -42,7 +42,7 @@ function App() {
         <code>/src</code> for components and content, and <code>/api</code>{' '}
         which contains a serverless <a href="https://golang.org/">Go</a>{' '}
         function. See{' '}
-        <a href="/api/date">
+        <a href="/api/test">
           <code>api/date</code> for the Date API with Go
         </a>
         .
