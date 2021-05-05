@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
 
   switch (method) {
     case "GET":
-      let getResponse = await db.collection("sample_training.companies").find({}).toArray();
+      let getResponse = await db.collection("clothing").find({}).toArray();
       res.status(200).json(getResponse);
       break;
     case "POST":
