@@ -33,6 +33,8 @@ module.exports = async (req, res) => {
   // using the connection string environment variable as the argument
   const db = await connectToDatabase(process.env.MONGODB_URI)
 
+  const { method } = req;
+
   switch (method) {
     case "GET":
       let getResponse = await db.collection("clothing").find({}).toArray();
