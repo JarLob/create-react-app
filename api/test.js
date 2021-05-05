@@ -33,12 +33,30 @@ module.exports = async (req, res) => {
   // using the connection string environment variable as the argument
   const db = await connectToDatabase(process.env.MONGODB_URI)
 
-  // Select the "users" collection from the database
-  const collection = await db.collection('users')
+  switch (method) {
+    case "GET":
+      let getResponse = await db.collection("clothing").find({}).toArray();
+      res.status(200).json(getResponse);
+      break;
+    case "POST":
+      const { name, description, type } = req.body;
+      const { filename } = req.file;
 
-  // Select the users collection from the database
-  const users = await collection.find({}).toArray()
+      let postResponse = await db
+        .collection("clothing")
+        .insert({ name, description, filename, type });
+      res.status(200).json(postResponse);
+      break;
+    case "DELETE":
+      const { _id } = req.body;
 
-  // Respond with a JSON string of all users in the collection
-  res.status(200).json({ users })
+      let deleteResponse = await db
+        .collection("clothing")
+        .deleteOne({ _id: ObjectId(_id) });
+      res.status(200).json(deleteResponse);
+      break;
+    default:
+      res.setHeader("Allow", ["GET", "PUT"]);
+      res.status(405).end(`Method ${method} Not Allowed`);
+  }
 }
